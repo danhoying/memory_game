@@ -5,10 +5,11 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -94,6 +95,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
         buttonReplay.setOnClickListener(this);
+
+        // This is the code which will define the thread
+        myHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (playSequence) {
+                    // All the thread action goes here
+                }
+                myHandler.sendEmptyMessageDelayed(0, 900);
+            }
+        }; // end of thread
     }
 
     @Override
