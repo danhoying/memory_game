@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -74,6 +75,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             // catch exceptions
         }
+
+        // Reference all the elements of the UI
+        textScore = (TextView) findViewById(R.id.textScore);
+        textScore.setText("Score: " + playerScore);
+        textDifficulty = (TextView) findViewById(R.id.textDifficulty);
+        textDifficulty.setText("Level " + difficultyLevel);
+
+        button1 = (Button) findViewById(R.id.button);
+        button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button)findViewById(R.id.button3);
+        button4 = (Button)findViewById(R.id.button4);
+        buttonReplay = (Button)findViewById(R.id.buttonReplay);
+
+        // Now set all the buttons to listen for clicks
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        buttonReplay.setOnClickListener(this);
     }
 
     @Override
