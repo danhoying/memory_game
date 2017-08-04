@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // for our high score
     SharedPreferences prefs;
     String dataName = "MyData";
-    String intName = "MyString";
+    String intName = "MyInt";
     int defaultInt = 0;
     public static int hiScore; // Both activities can see this
 
