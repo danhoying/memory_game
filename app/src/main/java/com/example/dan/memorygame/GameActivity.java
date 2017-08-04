@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -102,14 +103,74 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 super.handleMessage(msg);
                 if (playSequence) {
                     // All the thread action goes here
+                    button1.setVisibility(View.VISIBLE);
+                    button2.setVisibility(View.VISIBLE);
+                    button3.setVisibility(View.VISIBLE);
+                    button4.setVisibility(View.VISIBLE);
+
+                    switch (sequenceToCopy[elementToPlay]) {
+                        case 1:
+                            button1.setVisibility(View.INVISIBLE);
+                            soundPool.play(sample1, 1, 1, 0, 0, 1);
+                            break;
+                        case 2:
+                            button2.setVisibility(View.INVISIBLE);
+                            soundPool.play(sample2, 1, 1, 0, 0, 1);
+                            break;
+                        case 3:
+                            button3.setVisibility(View.INVISIBLE);
+                            soundPool.play(sample3, 1, 1, 0, 0, 1);
+                            break;
+                        case 4:
+                            button4.setVisibility(View.INVISIBLE);
+                            soundPool.play(sample4, 1, 1, 0, 0, 1);
+                            break;
+                    }
+                    elementToPlay++;
+                    if (elementToPlay == difficultyLevel) {
+                        sequenceFinished();
+                    }
                 }
                 myHandler.sendEmptyMessageDelayed(0, 900);
             }
         }; // end of thread
+        myHandler.sendEmptyMessage(0);
     }
 
     @Override
     public void onClick(View v) {
 
+    }
+
+    public void createSequence() {
+        // For choosing a random button
+        Random randInt = new Random();
+        int ourRandom;
+        for (int i = 0; i < difficultyLevel; i++) {
+            ourRandom = randInt.nextInt(4);
+            ourRandom++;
+            sequenceToCopy[i] = ourRandom;
+        }
+    }
+
+    // Prepare and start thread
+    public void playASequence() {
+        createSequence();
+        isResponding = false;
+        elementToPlay = 0;
+        playerResponses = 0;
+        textWatchGo.setText("WATCH!");
+        playSequence = true;
+    }
+
+    // Set variables after sequence has played
+    public void sequenceFinished() {
+        playSequence = false;
+        button1.setVisibility(View.VISIBLE);
+        button2.setVisibility(View.VISIBLE);
+        button3.setVisibility(View.VISIBLE);
+        button4.setVisibility(View.VISIBLE);
+        textWatchGo.setText("GO!");
+        isResponding = true;
     }
 }
