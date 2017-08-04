@@ -86,9 +86,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         button1 = (Button) findViewById(R.id.button);
         button2 = (Button) findViewById(R.id.button2);
-        button3 = (Button)findViewById(R.id.button3);
-        button4 = (Button)findViewById(R.id.button4);
-        buttonReplay = (Button)findViewById(R.id.buttonReplay);
+        button3 = (Button) findViewById(R.id.button3);
+        button4 = (Button) findViewById(R.id.button4);
+        buttonReplay = (Button) findViewById(R.id.buttonReplay);
 
         // Now set all the buttons to listen for clicks
         button1.setOnClickListener(this);
@@ -139,7 +139,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        if (!playSequence) {
+            switch (v.getId()) {
+                case R.id.button:
+                    soundPool.play(sample1, 1, 1, 0, 0, 1);
+                    checkElement(1);
+                    break;
 
+                case R.id.button2:
+                    soundPool.play(sample2, 1, 1, 0, 0, 1);
+                    checkElement(2);
+                    break;
+
+                case R.id.button3:
+                    soundPool.play(sample3, 1, 1, 0, 0, 1);
+                    checkElement(3);
+                    break;
+
+                case R.id.button4:
+                    soundPool.play(sample4, 1, 1, 0, 0, 1);
+                    checkElement(4);
+                    break;
+
+                case R.id.buttonReplay:
+                    difficultyLevel = 3;
+                    playerScore = 0;
+                    textScore.setText("Score: " + playerScore);
+                    playASequence();
+                    break;
+            }
+        }
     }
 
     public void createSequence() {
@@ -172,5 +201,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button4.setVisibility(View.VISIBLE);
         textWatchGo.setText("GO!");
         isResponding = true;
+    }
+
+    public void checkElement(int thisElement) {
+        if (isResponding) {
+            playerResponses++;
+            if (sequenceToCopy[playerResponses-1] == thisElement) { // Correct
+                playerScore = playerScore + ((thisElement + 1) * 2);
+                textScore.setText("Score: " + playerScore);
+                if (playerResponses == difficultyLevel) { // Got the whole sequence
+                    isResponding = false;
+                    difficultyLevel++;
+                    playASequence();
+                }
+            } else { // Wrong answer
+                textWatchGo.setText("FAILED!");
+                isResponding = false;
+            }
+        }
     }
 }
