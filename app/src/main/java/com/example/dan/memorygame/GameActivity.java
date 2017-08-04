@@ -82,7 +82,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         textScore = (TextView) findViewById(R.id.textScore);
         textScore.setText("Score: " + playerScore);
         textDifficulty = (TextView) findViewById(R.id.textDifficulty);
-        textDifficulty.setText("Level " + difficultyLevel);
+        textDifficulty.setText("Level: " + difficultyLevel);
+        textWatchGo = (TextView) findViewById(R.id.textWatchGo);
 
         button1 = (Button) findViewById(R.id.button);
         button2 = (Button) findViewById(R.id.button2);
