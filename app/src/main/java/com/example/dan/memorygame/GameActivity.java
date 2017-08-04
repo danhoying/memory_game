@@ -1,5 +1,6 @@
 package com.example.dan.memorygame;
 
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
@@ -8,14 +9,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+
+    // Initialize variables for high score
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    String dataName = "MyData";
+    String intName = "MyInt";
+    int defaultInt = 0;
+    int hiScore;
 
     // initialize sound variables
     private SoundPool soundPool;
@@ -55,6 +66,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        prefs = getSharedPreferences(dataName, MODE_PRIVATE);
+        editor = prefs.edit();
+        hiScore = prefs.getInt(intName, defaultInt);
 
         soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         try {
@@ -218,6 +233,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             } else { // Wrong answer
                 textWatchGo.setText("FAILED!");
                 isResponding = false;
+
+                // Save high score
+                if (playerScore > hiScore) {
+
+                    hiScore = playerScore;
+                    editor.putInt(intName, hiScore);
+                    editor.commit();
+                    Toast.makeText(getApplicationContext(),
+                            "New Hi Score", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
